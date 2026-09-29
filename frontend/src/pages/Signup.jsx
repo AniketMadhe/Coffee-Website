@@ -13,7 +13,7 @@ function Signup() {
     try {
       console.log(username, email, password);
       const res = await axios.post(
-        "http://localhost:4000/api/signup",
+        "https://travel-website-ts87.onrender.com/api/signup",
         { username, email, password },
         { withCredentials: true },
       );
