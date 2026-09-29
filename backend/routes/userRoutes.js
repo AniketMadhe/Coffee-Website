@@ -4,6 +4,7 @@ const User = require("../models/usermodel");
 const { hashPassword } = require("./auth/athenticate");
 
 router.post("/signup", async (req, res) => {
+  console.log("hi");
   const { username, email, password } = req.body;
   const hashedPassword = await hashPassword(password);
   const user = new User({
