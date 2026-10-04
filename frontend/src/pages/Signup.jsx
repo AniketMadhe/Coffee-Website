@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import BASE_URL from "./configUrl";
 
 function Signup() {
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -11,17 +14,29 @@ function Signup() {
     console.log("innnn");
 
     try {
-      console.log(username, email, password);
       const res = await axios.post(
-        "https://travel-website-ts87.onrender.com/api/signup",
+        `${BASE_URL}/api/signup`,
         { username, email, password },
         { withCredentials: true },
       );
       console.log(res.data);
       alert("Signed up successfully!");
+      navigate("/login");
     } catch (error) {
-      console.error(error);
-      alert(error.response?.data?.message || "Network or Server Error");
+      console.error("Full Error Object:", error);
+
+      if (error.response) {
+        // The server responded with an error status code (4xx, 5xx)
+        alert(error.response.data?.message || "Server rejected the request.");
+      } else if (error.request) {
+        // The request was made but no response was received (Backend is down or CORS blocked it)
+        alert(
+          "Network Error: Cannot connect to the server. Check if the backend is running and CORS is configured.",
+        );
+      } else {
+        // Something else happened setting up the request
+        alert("Error: " + error.message);
+      }
     }
   };
 

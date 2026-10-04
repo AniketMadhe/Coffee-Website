@@ -1,12 +1,38 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { LoginContext } from "../App";
+import BASE_URL from "./configUrl";
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  const { admin, setAdmin, login, setLogin } = useContext(LoginContext);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault(); // Prevents the page from reloading
-    console.log("Logging in with:", { username, password });
+    try {
+      const res = await axios.post(
+        `${BASE_URL}/api/login`,
+        { username, password },
+        { withCredentials: true },
+      );
+
+      if (res.data.role === "user") {
+        setLogin(true);
+        setAdmin(false);
+        navigate("/home");
+      }
+      if (res.data.role === "admin") {
+        setAdmin(true);
+        setLogin(true);
+        navigate("/addCoffee");
+      }
+    } catch (e) {
+      console.log("Incorrect details");
+      navigate("/login");
+    }
   };
 
   return (
