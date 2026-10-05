@@ -10,6 +10,7 @@ import Coffee from "./pages/adminPage/Coffee";
 import Products from "./pages/Products";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import Footer from "./components/Footer";
 
 export const LoginContext = createContext();
 
@@ -32,6 +33,7 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
         </Routes>
+        <Footer />
       </div>
     </LoginContext.Provider>
   );

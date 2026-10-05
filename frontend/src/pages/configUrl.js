@@ -1,3 +1,3 @@
-const BASE_URL = "https://coffee-website-17ze.onrender.com";
+const BASE_URL = "http://localhost:4000";
 
 export default BASE_URL;
